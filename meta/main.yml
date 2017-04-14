@@ -207,7 +207,7 @@ galaxy_info:
   #  - all
   #  - Any
 
-  galaxy_tags: []
+  galaxy_tags:
     - system
     - mail
     # List tags for your role here, one per line. A tag is
