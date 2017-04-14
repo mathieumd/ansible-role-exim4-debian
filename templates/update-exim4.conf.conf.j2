@@ -1,0 +1,15 @@
+# {{ansible_managed}}
+
+dc_eximconfig_configtype='{{exim4_conf_dc_eximconfig_configtype}}'
+dc_other_hostnames='{{exim4_conf_dc_other_hostnames | join(' ; ')}}'
+dc_local_interfaces='{{exim4_conf_dc_local_interfaces | join(' ; ')}}'
+dc_readhost='{{exim4_conf_dc_readhost}}'
+dc_relay_domains='{{exim4_conf_dc_relay_domains | join(' ; ')}}'
+dc_minimaldns='{{exim4_conf_dc_minimaldns}}'
+dc_relay_nets='{{exim4_conf_dc_relay_nets | join(' ; ')}}'
+dc_smarthost='{{exim4_conf_dc_smarthost}}'
+CFILEMODE='{{exim4_conf_CFILEMODE}}'
+dc_use_split_config='{{exim4_conf_dc_use_split_config}}'
+dc_hide_mailname='{{exim4_conf_dc_hide_mailname}}'
+dc_mailname_in_oh='{{exim4_conf_dc_mailname_in_oh}}'
+dc_localdelivery='{{exim4_conf_dc_localdelivery}}'

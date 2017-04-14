@@ -1,0 +1,11 @@
+---
+- name: Newaliases
+  command: newaliases
+
+- name: Update Exim4 conf
+  command: update-exim4.conf
+
+- name: Restart Exim4
+  service:
+    name: exim4
+    state: restarted

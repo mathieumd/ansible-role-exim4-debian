@@ -1,0 +1,82 @@
+---
+
+exim4_mailname: "{{ansible_fqdn}}"
+exim4_aliases: []
+# exim4_aliases:
+#   root: "sysadmins@example.com"
+#   postmaster: "mailadmins@example.com"
+
+exim4_package_name:
+  - exim4-daemon-heavy
+  # - exim4-daemon-light
+  - spf-tools-perl
+  - swaks
+
+exim4_updateexim4confconf_template: update-exim4.conf.conf.j2
+
+# Content of "update-exim4.conf.conf"
+exim4_conf_dc_eximconfig_configtype: 'internet'
+exim4_conf_dc_other_hostnames: []
+# exim4_conf_dc_other_hostnames:
+#   - example.com
+exim4_conf_dc_local_interfaces:
+  - 0.0.0.0
+  # - 127.0.0.1
+  # NOTE: lookup(dig) needs package "python-dnspython" installed on Ansible
+  # host.
+  # - "{{lookup('dig', '{{ansible_fqdn}}', wantlist=True) | join(' ; ')}}"
+exim4_conf_dc_readhost: ''
+exim4_conf_dc_relay_domains: []
+# exim4_conf_dc_relay_domains:
+#   - client.example.net
+exim4_conf_dc_minimaldns: 'false'
+exim4_conf_dc_relay_nets: []
+# exim4_conf_dc_relay_nets:
+#   - 10.1.2.3/24
+exim4_conf_dc_smarthost: ''
+exim4_conf_CFILEMODE: '644'
+exim4_conf_dc_use_split_config: 'true'
+exim4_conf_dc_hide_mailname: ''
+exim4_conf_dc_mailname_in_oh: 'true'
+exim4_conf_dc_localdelivery: 'mail_spool'
+
+# Path where templates are saved (usefull to override this role files)
+# NOTE: Paths must end by a "/", or be empty!
+exim4_confd_local_dir: "conf.d/"
+# exim4_confd_local_dir: "../../my_templates/exim4/{{inventory_hostname}}/conf.d/"
+exim4_template_local_dir: ""
+# exim4_template_local_dir: "../../my_templates/exim4/{{inventory_hostname}}/"
+exim4_template_conf: "exim4.conf.template.j2"
+
+# To override Exim4 package default files, append ".rul" to yours.
+# Load order is: main, acl, router, transport, retry, rewrite and auth.
+# NOTE: Your template files must _not_ have the ".j2" extension.
+# NOTE: For simpler files, you can also use "exim4_other_conf_files".
+exim4_confd_files: []
+# exim4_confd_files:
+#   - acl/00_exim4-config_header.rul
+#   - rewrite/31_exim4-config_rewriting.rul
+
+exim4_other_conf_files: []
+# exim4_other_conf_files:
+#   - file: /etc/exim4/hubbed_hosts
+#     content: |
+#       # This file is managed by Ansible.
+#       example.com       relay-mail.example.com
+#       test.example.com  relay-test.example.com
+#   - file: /etc/exim4/conf.d/main/01_exim4-config_listmacrosdefs_CUSTOM
+#     content: |
+#       MESSAGE_SIZE_LIMIT=100m
+
+exim4_logrotate:
+  exim4-base:
+    # template: "logrotate.j2"
+    path: "/var/log/exim4/mainlog /var/log/exim4/rejectlog"
+    type: "daily"
+    rotate: 365
+  exim4-paniclog:
+    # template: "logrotate.j2"
+    path: "/var/log/exim4/paniclog"
+    type: "size 10M"
+    rotate: 10
+
