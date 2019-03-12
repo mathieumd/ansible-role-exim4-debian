@@ -15,9 +15,8 @@
 
 - name: Exim4 | Install package
   apt:
-    name: "{{item}}"
+    name: "{{exim4_package_name}}"
     state: present
-  with_items: "{{exim4_package_name}}"
 
 - name: Exim4 | Configure update-exim4.conf.conf
   template:
