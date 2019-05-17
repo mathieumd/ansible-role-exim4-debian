@@ -2,12 +2,14 @@
 - name: Exim4 | Set mailname
   lineinfile:
     dest: /etc/mailname
+    create: yes
     regexp: "^.*"
     line: "{{exim4_mailname}}"
 
 - name: Exim4 | Set local aliases
   lineinfile:
     dest: /etc/aliases
+    create: yes
     regexp: "^{{item.key}}:"
     line: "{{item.key}}: {{item.value}}"
   with_dict: "{{exim4_aliases}}"
