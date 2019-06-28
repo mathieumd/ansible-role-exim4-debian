@@ -14,31 +14,66 @@ exim4_package_name:
 
 exim4_updateexim4confconf_template: update-exim4.conf.conf.j2
 
-# Content of "update-exim4.conf.conf"
-exim4_conf_dc_eximconfig_configtype: 'internet'
-exim4_conf_dc_other_hostnames: []
-# exim4_conf_dc_other_hostnames:
-#   - example.com
-exim4_conf_dc_local_interfaces:
-  - 0.0.0.0
-  # - 127.0.0.1
-  # NOTE: lookup(dig) needs package "python-dnspython" installed on Ansible
-  # host.
-  # - "{{lookup('dig', '{{ansible_fqdn}}', wantlist=True) | join(' ; ')}}"
-exim4_conf_dc_readhost: ''
-exim4_conf_dc_relay_domains: []
-# exim4_conf_dc_relay_domains:
-#   - client.example.net
-exim4_conf_dc_minimaldns: 'false'
-exim4_conf_dc_relay_nets: []
-# exim4_conf_dc_relay_nets:
-#   - 10.1.2.3/24
-exim4_conf_dc_smarthost: ''
+# These 4 settings are not available through debconf but are required in
+# update-exim4.conf.conf
 exim4_conf_CFILEMODE: '644'
 exim4_conf_dc_use_split_config: 'true'
 exim4_conf_dc_hide_mailname: ''
 exim4_conf_dc_mailname_in_oh: 'true'
+#
+# These 2 settings are different in debconf and in update-exim4.conf.conf
+# because of their "select" vtype.
+exim4_conf_dc_eximconfig_configtype: 'internet'
 exim4_conf_dc_localdelivery: 'mail_spool'
+
+# For Debconf possible questions, values and types, see
+# https://salsa.debian.org/exim-team/exim4/blob/master/debian/exim4-config.templates
+# Use ';' to separate multiple values.
+exim4_debconf:
+  # Don't forget to change exim4_conf_dc_eximconfig_configtype too!
+  - { question: exim4/dc_eximconfig_configtype,
+    value: 'internet site; mail is sent and received directly using SMTP',
+    vtype: select }
+  # Don't forget to change exim4_conf_dc_localdelivery too!
+  # - { question: exim4/dc_localdelivery,
+  #   value: 'mbox format in /var/mail/',
+  #   vtype: select }
+  # - { question: exim4/dc_local_interfaces,
+  #   value: '0.0.0.0',
+  #   vtype: string }
+  # - { question: exim4/dc_minimaldns,
+  #   value: 'false',
+  #   vtype: boolean }
+  # - { question: exim4/dc_other_hostnames,
+  #   value: '',
+  #   vtype: string }
+  # - { question: exim4/dc_postmaster,
+  #   value: '',
+  #   vtype: string }
+  # - { question: exim4/dc_readhost,
+  #   value: '',
+  #   vtype: string }
+  # - { question: exim4/dc_relay_domains,
+  #   value: 'client1.example ; client2.example',
+  #   vtype: string }
+  # - { question: exim4/dc_relay_nets,
+  #   value: '192.0.2.0/24 ; 10.2.3.4/24',
+  #   vtype: string }
+  # - { question: exim4/dc_smarthost,
+  #   value: '',
+  #   vtype: string }
+  # - { question: exim4/hide_mailname,
+  #   value: '{{exim4_conf_dc_hide_mailname}}',
+  #   vtype: boolean }
+  # - { question: exim4/mailname,
+  #   value: 'n1.example.com',
+  #   vtype: string }
+  # - { question: exim4/no_config,
+  #   value: 'true',
+  #   vtype: boolean }
+  # - { question: exim4/use_split_config,
+  #   value: '{{exim4_conf_dc_use_split_config}}',
+  #   vtype: boolean }
 
 # Path where templates are saved (usefull to override this role files)
 # NOTE: Paths must end by a "/", or be empty!
