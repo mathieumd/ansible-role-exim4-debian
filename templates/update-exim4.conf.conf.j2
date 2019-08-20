@@ -1,15 +1,15 @@
-# {{ansible_managed}}
+# {{ ansible_managed }}
 
 {% for item in exim4_debconf %}
 {% if item.vtype != 'select' %}
-{{item.question|replace("exim4/", "")}}='{{item.value}}'
+{{ item.question|replace("exim4/", "") }}='{{ item.value }}'
 {% endif %}
 {% endfor %}
 
-dc_eximconfig_configtype='{{exim4_conf_dc_eximconfig_configtype}}'
-dc_localdelivery='{{exim4_conf_dc_localdelivery}}'
+dc_eximconfig_configtype='{{ exim4_conf_dc_eximconfig_configtype }}'
+dc_localdelivery='{{ exim4_conf_dc_localdelivery }}'
 
-CFILEMODE='{{exim4_conf_CFILEMODE}}'
-dc_use_split_config='{{exim4_conf_dc_use_split_config}}'
-dc_hide_mailname='{{exim4_conf_dc_hide_mailname}}'
-dc_mailname_in_oh='{{exim4_conf_dc_mailname_in_oh}}'
+CFILEMODE='{{ exim4_conf_CFILEMODE }}'
+dc_use_split_config='{{ exim4_conf_dc_use_split_config }}'
+dc_hide_mailname='{{ exim4_conf_dc_hide_mailname }}'
+dc_mailname_in_oh='{{ exim4_conf_dc_mailname_in_oh }}'

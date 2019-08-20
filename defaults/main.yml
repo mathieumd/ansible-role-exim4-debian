@@ -1,6 +1,6 @@
 ---
 
-exim4_mailname: "{{ansible_fqdn}}"
+exim4_mailname: "{{ ansible_fqdn }}"
 exim4_aliases: []
 # exim4_aliases:
 #   root: "sysadmins@example.com"
@@ -63,7 +63,7 @@ exim4_debconf:
   #   value: '',
   #   vtype: string }
   # - { question: exim4/hide_mailname,
-  #   value: '{{exim4_conf_dc_hide_mailname}}',
+  #   value: '{{ exim4_conf_dc_hide_mailname }}',
   #   vtype: boolean }
   # - { question: exim4/mailname,
   #   value: 'n1.example.com',
@@ -72,15 +72,15 @@ exim4_debconf:
   #   value: 'true',
   #   vtype: boolean }
   # - { question: exim4/use_split_config,
-  #   value: '{{exim4_conf_dc_use_split_config}}',
+  #   value: '{{ exim4_conf_dc_use_split_config }}',
   #   vtype: boolean }
 
 # Path where templates are saved (usefull to override this role files)
 # NOTE: Paths must end by a "/", or be empty!
 exim4_confd_local_dir: "conf.d/"
-# exim4_confd_local_dir: "../../my_templates/exim4/{{inventory_hostname}}/conf.d/"
+# exim4_confd_local_dir: "../../my_templates/exim4/{{ inventory_hostname }}/conf.d/"
 exim4_template_local_dir: ""
-# exim4_template_local_dir: "../../my_templates/exim4/{{inventory_hostname}}/"
+# exim4_template_local_dir: "../../my_templates/exim4/{{ inventory_hostname }}/"
 exim4_template_conf: "exim4.conf.template.j2"
 
 # To override Exim4 package default files, append ".rul" to yours.

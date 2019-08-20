@@ -4,28 +4,28 @@
     dest: /etc/mailname
     create: yes
     regexp: "^.*"
-    line: "{{exim4_mailname}}"
+    line: "{{ exim4_mailname }}"
 
 - name: Exim4 | Set local aliases
   lineinfile:
     dest: /etc/aliases
     create: yes
-    regexp: "^{{item.key}}:"
-    line: "{{item.key}}: {{item.value}}"
-  with_dict: "{{exim4_aliases}}"
+    regexp: "^{{ item.key }}:"
+    line: "{{ item.key }}: {{ item.value }}"
+  with_dict: "{{ exim4_aliases }}"
   notify: Newaliases
 
 - name: Exim4 | Install package
   apt:
-    name: "{{exim4_package_name}}"
+    name: "{{ exim4_package_name }}"
     state: present
 
 - name: Exim4 | Configure debconf for exim4-config
   debconf:
     name: exim4-config
-    question: '{{item.question}}'
-    value: '{{item.value}}'
-    vtype: '{{item.vtype}}'
+    question: '{{ item.question }}'
+    value: '{{ item.value }}'
+    vtype: '{{ item.vtype }}'
   loop: '{{ exim4_debconf }}'
   notify:
     - Update Exim4 conf
@@ -33,7 +33,7 @@
 
 - name: Exim4 | Configure update-exim4.conf.conf
   template:
-    src: "{{exim4_updateexim4confconf_template}}"
+    src: "{{ exim4_updateexim4confconf_template }}"
     dest: /etc/exim4/update-exim4.conf.conf
   notify:
     - Update Exim4 conf
@@ -41,12 +41,12 @@
 
 - name: Exim4 | Copy split-files conf
   template:
-    src: "{{exim4_confd_local_dir}}{{item}}"
-    dest: "/etc/exim4/conf.d/{{item}}"
+    src: "{{ exim4_confd_local_dir }}{{ item }}"
+    dest: "/etc/exim4/conf.d/{{ item }}"
     owner: root
     group: root
     mode: 0644
-  with_items: "{{exim4_confd_files}}"
+  with_items: "{{ exim4_confd_files }}"
   notify:
     - Update Exim4 conf
     - Restart Exim4
@@ -54,7 +54,7 @@
 
 - name: Exim4 | Copy single-file conf
   template:
-    src: "{{exim4_template_local_dir}}{{exim4_template_conf}}"
+    src: "{{ exim4_template_local_dir }}{{ exim4_template_conf }}"
     dest: "/etc/exim4/exim4.conf.template"
     owner: root
     group: root
@@ -66,25 +66,24 @@
 
 - name: Exim4 | Create other files
   copy:
-    content: "{{item.content}}"
-    dest: "{{item.file}}"
+    content: "{{ item.content }}"
+    dest: "{{ item.file }}"
     owner: root
     group: root
     mode: 0644
-  with_items: "{{exim4_other_conf_files}}"
+  with_items: "{{ exim4_other_conf_files }}"
   notify:
     - Update Exim4 conf
     - Restart Exim4
 
 - name: Exim4 | Configure logs rotation
   template:
-    src: "{{item.value.template|default('logrotate.j2')}}"
-    dest: "/etc/logrotate.d/{{item.key}}"
-  with_dict: "{{exim4_logrotate}}"
+    src: "{{ item.value.template|default('logrotate.j2') }}"
+    dest: "/etc/logrotate.d/{{ item.key }}"
+  with_dict: "{{ exim4_logrotate }}"
 
 - name: Exim4 | Enable at boot
   service:
     name: exim4
     enabled: yes
     state: started
-
